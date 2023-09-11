@@ -25,3 +25,8 @@
         "transports":["websocket"]
         }
     while connecting to server using SOCKETIO client
+
+# For monitoring socket server as which clients are connected and what rooms and events are being generated
+
+    - visit "https://admin.socket.io/" and enter server datails
+    - select "websocket only ?" button
