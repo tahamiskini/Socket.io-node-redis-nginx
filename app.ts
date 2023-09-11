@@ -1,14 +1,13 @@
-import express, { Request, Response, json } from "express";
+import express, { Request, Response } from "express";
 import { Server, Socket } from "socket.io";
 import { instrument } from "@socket.io/admin-ui";
 import cors from "cors";
 
 const app = express();
 
-const PORT = 4000;
+const PORT = 8080;
 
-app.use(cors());
-app.use(json());
+const socketUsers: Record<string, string> = {};
 
 // health check endpoint
 app.get("/", (req: Request, res: Response) => {
@@ -38,10 +37,35 @@ instrument(io, {
 
 io.on("connection", async (socket: Socket) => {
   try {
-    console.log("connected to socket server");
+    //get roomId from connection
 
-    socket.on("test", (data) => {
-      console.log("this is test", data);
+    const roomId = socket.handshake.query["roomId"];
+    const userId = socket.handshake.query["userId"];
+
+    if (!roomId || !userId) {
+      console.log("roomId/userId not found");
+      socket.emit("error", { message: "provide roomId/userId" });
+      socket.disconnect();
+      return;
+    }
+    console.log("connected to socket server");
+    socketUsers[`${userId}`] = socket.id;
+
+    //join room
+    socket.join(roomId);
+    socket.emit("message", { message: "joined room", roomId: roomId });
+
+    // on message send message to room
+    socket.on("message", (data: any) => {
+      //socket.to does not send event to sender of the message in the room.. only to others in room
+      // socket.to(roomId).emit("message",data)
+
+      //io.to sends events to everyone in that room including the sender
+      io.to(roomId).emit("message", data);
+      socket.on("disconnect", () => {
+        delete socketUsers[`${userId}`];
+        console.log("disconnected ", socket.id);
+      });
     });
   } catch (error) {
     console.log("error --- ", error);
