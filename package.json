@@ -14,17 +14,26 @@
   ],
   "main": "index.js",
   "scripts": {
+    "build": "rimraf ./build && tsc",
+    "start:dev": "nodemon",
+    "start": "node build/index.js"
+  },
+  "author": "Rohit Jadhav",
+  "license": "ISC",
+  "dependencies": {
+    "@socket.io/admin-ui": "^0.5.1",
     "@socket.io/redis-adapter": "^8.2.1",
     "experss": "^0.0.1-security",
     "redis": "^4.6.7",
     "socketio": "^1.0.0",
     "uuid": "^9.0.0"
   },
-  "author": "Rohit Jadhav",
-  "license": "ISC",
-  "dependencies": {
-    "experss": "^0.0.1-security",
-    "redis": "^4.6.7",
-    "socketio": "^1.0.0"
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.4.8",
+    "@types/uuid": "^9.0.2",
+    "nodemon": "3.0.1",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.1.6"
   }
 }
