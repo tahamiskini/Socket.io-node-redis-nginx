@@ -2,8 +2,24 @@
   "name": "socketio-nodejs-redis-nginx",
   "version": "1.0.0",
   "description": "basic socket server with socketio",
+  "keywords": [
+    "socketio",
+    "loadbalancing",
+    "horizontal-scaling",
+    "nginx",
+    "redis",
+    "pubsub",
+    "nodejs",
+    "express"
+  ],
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "@socket.io/redis-adapter": "^8.2.1",
+    "experss": "^0.0.1-security",
+    "redis": "^4.6.7",
+    "socketio": "^1.0.0",
+    "uuid": "^9.0.0"
+  },
   "author": "Rohit Jadhav",
   "license": "ISC",
   "dependencies": {
